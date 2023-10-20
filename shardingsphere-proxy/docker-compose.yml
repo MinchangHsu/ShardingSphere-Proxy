@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  pdb_16:
+     image: postgres:16
+     ports:
+       - 5416:5432
+     environment:
+       - POSTGRES_USER=postgres
+       - POSTGRES_PASSWORD=pass123456
+       - PGDATA=/var/lib/postgresql/data/pgdata
+     volumes:
+       - "./postgresStuff_V15/postgresData:/var/lib/postgresql/data/pgdata"
+     networks:
+       - local_net
+  mdb_8:
+    image: mysql:8
+    command: --lower_case_table_names=1 --sql_mode="" --character-set-client-handshake=FALSE --character-set-server="utf8mb4" --collation-server="utf8mb4_unicode_ci"
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=1qaz2wsx
+      - MYSQL_DATABASE=payment_system
+      - TZ=Asia/Taipei
+    volumes:
+      - ./mysqlStuff/mysqlData:/var/lib/mysql
+    networks:
+      - local_net
+  mdb_57:
+    image: mysql:5.7
+    command: --lower_case_table_names=1 --sql_mode="" --character-set-client-handshake=FALSE --character-set-server="utf8mb4" --collation-server="utf8mb4_unicode_ci"
+    ports:
+      - "3357:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=1qaz2wsx
+      - MYSQL_DATABASE=local_test
+      - TZ=Asia/Taipei
+    volumes:
+      - ./mysqlStuff_57/mysqlData:/var/lib/mysql
+    networks:
+      - local_net
+
+  sharding:
+    image: apache/shardingsphere-proxy:latest
+    container_name: shardingsphere-proxy
+    restart: "no"
+    ports:
+      - "13308:3308"
+    volumes:
+     - ./conf:/opt/shardingsphere-proxy/conf
+     - ./lib:/opt/shardingsphere-proxy/ext-lib
+    environment:
+      JVM_OPTS: -Djava.awt.headless=true
+      PORT: 3308
+    networks:
+      - local_net
+
+networks:
+  local_net:
+    name: local-net
+    driver: bridge

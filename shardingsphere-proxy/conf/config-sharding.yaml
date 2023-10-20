@@ -1,0 +1,89 @@
+databaseName: sharding_db
+#
+dataSources:
+    ds_0:
+        # MySQL version
+#        url: jdbc:mysql://172.20.160.120:3308/demo_ds_0?serverTimezone=UTC&useSSL=false # MySQL 5.x Setting
+        url: jdbc:mysql://172.20.160.120:3308/demo_ds_0?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true # MySQL 8 Setting
+        username: root
+        password: 1qaz2wsx
+
+        # postgresql version
+#        url: jdbc:postgresql://172.20.160.120:5416/sharding_0?currentSchema=demo_ds_0 # current unsupported choice schema, only used default schema -> public
+#        url: jdbc:postgresql://172.20.160.120:5416/sharding_0
+#        username: postgres
+#        password: pass123456
+
+        # common setting
+        connectionTimeoutMilliseconds: 30000
+        idleTimeoutMilliseconds: 60000
+        maxLifetimeMilliseconds: 1800000
+        maxPoolSize: 50
+        minPoolSize: 1
+    ds_1:
+        # MySQL version
+#        url: jdbc:mysql://172.20.160.120:3308/demo_ds_1?serverTimezone=UTC&useSSL=false # MySQL 5.x Setting
+        url: jdbc:mysql://172.20.160.120:3308/demo_ds_1?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true # MySQL 8 Setting
+        username: root
+        password: 1qaz2wsx
+
+
+        # postgresql version
+#        url: jdbc:postgresql://172.20.160.120:5416/sharding_1?currentSchema=demo_ds_1 # current unsupported choice schema, only used default schema -> public
+#        url: jdbc:postgresql://172.20.160.120:5416/sharding_1
+#        username: postgres
+#        password: pass123456
+
+        # common setting
+        connectionTimeoutMilliseconds: 30000
+        idleTimeoutMilliseconds: 60000
+        maxLifetimeMilliseconds: 1800000
+        maxPoolSize: 50
+        minPoolSize: 1
+rules:
+    - !SHARDING
+        tables:
+            t_order:
+                actualDataNodes: ds_${0..1}.t_order_${0..1}
+                tableStrategy:
+                    standard:
+                        shardingColumn: order_id
+                        shardingAlgorithmName: t_order_inline
+                keyGenerateStrategy:
+                    column: order_id
+                    keyGeneratorName: snowflake
+            t_order_item:
+                actualDataNodes: ds_${0..1}.t_order_item_${0..1}
+                tableStrategy:
+                    standard:
+                        shardingColumn: order_id
+                        shardingAlgorithmName: t_order_item_inline
+                keyGenerateStrategy:
+                    column: order_item_id
+                    keyGeneratorName: snowflake
+        bindingTables:
+            - t_order,t_order_item
+        defaultDatabaseStrategy:
+            standard:
+                shardingColumn: user_id
+                shardingAlgorithmName: database_inline
+        defaultTableStrategy:
+            none:
+
+        shardingAlgorithms:
+            database_inline:
+                type: INLINE
+                props:
+                    algorithm-expression: ds_${user_id % 2}
+            t_order_inline:
+                type: INLINE
+                props:
+                    algorithm-expression: t_order_${order_id % 2}
+            t_order_item_inline:
+                type: INLINE
+                props:
+                    algorithm-expression: t_order_item_${order_id % 2}
+
+        keyGenerators:
+            snowflake:
+                type: SNOWFLAKE

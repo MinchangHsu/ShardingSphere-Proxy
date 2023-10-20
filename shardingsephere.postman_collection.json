@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "8667d217-e6c8-4dd2-833a-f22fc2abfe98",
+		"name": "shardingsephere",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28817624"
+	},
+	"item": [
+		{
+			"name": "sharding > findAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/order/findAll?orderId=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order",
+						"findAll"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sharding > add",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/order/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sharding > findByCondition",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/order/findByCondition",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order",
+						"findByCondition"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "845",
+							"disabled": true
+						},
+						{
+							"key": "userId",
+							"value": "192",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "Mpegq",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
