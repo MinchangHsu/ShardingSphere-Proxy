@@ -25,19 +25,19 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @GetMapping("/findAll")
-    public ResponseEntity findAll(@RequestParam Long orderId){
+    public ResponseEntity findAll(){
         List<Order> list = orderMapper.findAll();
-        log.debug("orderId:{}, list size:{}",orderId, list.size());
+        log.debug("list size:{}", list.size());
         list.forEach( o -> log.debug("{}", o.toString()));
-        return ResponseEntity.ok(200);
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/findByCondition")
     public ResponseEntity findByCondition(Order order){
         List<Order> list = orderMapper.findByCondition(order);
-        log.debug("orderId:{}, list size:{}",order.getOrderId(), list.size());
+        log.debug("orderInfo:{}, list size:{}",order.toString(), list.size());
         list.forEach( o -> log.debug("{}", o.toString()));
-        return ResponseEntity.ok(200);
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/add")

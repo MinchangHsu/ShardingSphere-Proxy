@@ -24,3 +24,6 @@ hs_err_pid*
 replay_pid*
 
 .idea
+LOG_PATH_IS_UNDEFINED
+shardingsphere-proxy/mysqlStuff
+target
