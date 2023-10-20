@@ -1,11 +1,7 @@
 # ShardingSphere-Proxy
 
 
-# Getting Started
-
-
-
-## 測試步驟
+## Getting Started
 
 * shardingsphere-proxy 使用 5.4.0 [shardingsphere docker hub ](https://hub.docker.com/r/apache/shardingsphere-proxy) 兩年前的<br>最新版本要去關往查看[官網](https://shardingsphere.apache.org/document/current/en/downloads/)<br> 撰寫這份文件時間是 2023/10/19
 * 
